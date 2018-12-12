@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cmn-Hans">
+    <meta charset="UTF-8">
+    <title>WZBridge Test</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
+</head>
+<style>
+    .btn {
+        text-align: center;
+        background: #eee;
+        color: #000;
+        padding: 20px;
+        margin: 30px;
+        font-size: 24px;
+        border-radius: 4px;
+        box-shadow: 4px 2px 10px #999;
+    }
+
+    .btn:active {
+        opacity: .7;
+        box-shadow: 4px 2px 10px #555;
+    }
+
+
+
+</style>
+<body>
+<div class="btn" onclick="callSynWithOutArgs()">Syn call without args</div>
+<div class="btn" onclick="callSyn()">Syn call</div>
+<div class="btn" onclick="callAsynWithOutArgs()">Asyn call without args</div>
+<div class="btn" onclick="callAsyn()">Asyn call</div>
+<div class="btn" onclick="callProgress()">call progress <span id='progress'></span></div>
+<div class="btn" onclick="callSynWithOutArgsSwift()">Syn call without args(Swift)</div>
+<div class="btn" onclick="callSynSwift()">Syn call(Swift)</div>
+<div class="btn" onclick="callAsynWithOutArgsSwift()">Asyn call without args(Swift)</div>
+<div class="btn" onclick="callAsynSwift()">Asyn call(Swift)</div>
+<div class="btn" onclick="callProgressSwift()">call progress(Swift) <span id='progressSwift'></span></div>
+<div class="btn" onclick="promptTest()">promptTest<span id='promptTest'></span></div>
+<div class="btn" onclick="alertTest()">alertTest</span></div>
+<div class="btn" onclick="confirmTest()">confirmTest<span id='confirmTest'></span></div>
+
+<script>
+    function callSynWithOutArgs(){
+        toObjC.callSyn()
+    }
+    function callSyn(){
+        var r = toObjC.callSyn("Hellow! I'm js!")
+        alert(r)
+    }
+    function callAsynWithOutArgs(){
+        toObjC.callAsyn(function(v){
+                        alert(v)
+                        return "OK ,I received your message:" + v;
+                    })
+    }
+    function callAsyn(){
+        toObjC.callAsyn("Hellow! I'm js!",function(v){
+                        alert(v)
+                        return "OK ,I received your message:" + v;
+                        })
+    }
+
+    function callProgress() {
+        toObjC.callProgress( function (value) {
+                            if(value==0) value="";
+                            document.getElementById("progress").innerText = value
+                        })
+    }
+    function callSynWithOutArgsSwift(){
+        toSwift.callSyn()
+    }
+    function callSynSwift(){
+        var r = toSwift.callSyn("Hellow! I'm js!")
+        alert(r)
+    }
+    function callAsynWithOutArgsSwift(){
+        toSwift.callAsyn(function(v){
+                        alert(v)
+                        return "OK ,I received your message:" + v;
+                    })
+    }
+    function callAsynSwift(){
+        toSwift.callAsyn("Hellow! I'm js!",function(v){
+                        alert(v)
+                        return "OK ,I received your message:" + v;
+                    })
+    }
+    function callProgressSwift() {
+        toSwift.callProgress( function (value) {
+                            if(value==0) value="";
+                            document.getElementById("progressSwift").innerText = value
+                        })
+    }
+    function promptTest() {
+        var name = prompt("Please enter your name","")
+        if (null !== name && "" !== name){
+            name = "\n your name is : "+name
+            document.getElementById("promptTest").innerText = name
+        }
+    }
+    function alertTest() {
+         alert("alert test")
+    }
+
+    function confirmTest() {
+         var r=confirm("are you ok!")
+         document.getElementById("confirmTest").innerText = true === r ? "\n I'm OK":"\n I am not good"
+    }
+
+</script>
+</body>
+</html>

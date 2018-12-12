@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2305266F5EFA0482B5F2824F /* Pods_WZBridge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDD620C5F0592B2711C0A4C8 /* Pods_WZBridge_Tests.framework */; };
+		33D4208521C0904B0058470C /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 33D4208421C0904B0058470C /* test.html */; };
+		33D4208A21C0E2F30058470C /* WZSwiftApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4208921C0E2F30058470C /* WZSwiftApiTest.swift */; };
+		33D4208D21C0E3070058470C /* WZObjCApiTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D4208C21C0E3070058470C /* WZObjCApiTest.m */; };
+		33D4208F21C0E81D0058470C /* WZSwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4208E21C0E81D0058470C /* WZSwiftViewController.swift */; };
 		55F1406345E33926136C1258 /* Pods_WZBridge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301889FB524CBCC43FE9AF47 /* Pods_WZBridge_Example.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -38,6 +42,12 @@
 
 /* Begin PBXFileReference section */
 		301889FB524CBCC43FE9AF47 /* Pods_WZBridge_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WZBridge_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33D4208421C0904B0058470C /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		33D4208621C0E09E0058470C /* WZBridge_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WZBridge_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		33D4208921C0E2F30058470C /* WZSwiftApiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WZSwiftApiTest.swift; sourceTree = "<group>"; };
+		33D4208B21C0E3070058470C /* WZObjCApiTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZObjCApiTest.h; sourceTree = "<group>"; };
+		33D4208C21C0E3070058470C /* WZObjCApiTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZObjCApiTest.m; sourceTree = "<group>"; };
+		33D4208E21C0E81D0058470C /* WZSwiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WZSwiftViewController.swift; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WZBridge_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZBridge_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -57,16 +67,16 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		60A53FE435CB87C845859471 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		60A53FE435CB87C845859471 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A270F8848BCCA65219ECD3FE /* Pods-WZBridge_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZBridge_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WZBridge_Example/Pods-WZBridge_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A9E9A8B9E85A3B24DEC40C1D /* Pods-WZBridge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZBridge_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WZBridge_Tests/Pods-WZBridge_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		C7BA48D1C6C4CCE637CBBA0C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		C7BA48D1C6C4CCE637CBBA0C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		CBF832A8FA81A38F7E6AC82F /* Pods-WZBridge_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZBridge_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WZBridge_Tests/Pods-WZBridge_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB491997611C4BCF600AA357 /* Pods-WZBridge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZBridge_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WZBridge_Example/Pods-WZBridge_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		DDD620C5F0592B2711C0A4C8 /* Pods_WZBridge_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WZBridge_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC25BE89469CD81FBFB07BB8 /* WZBridge.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = WZBridge.podspec; path = ../WZBridge.podspec; sourceTree = "<group>"; };
+		FC25BE89469CD81FBFB07BB8 /* WZBridge.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WZBridge.podspec; path = ../WZBridge.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,9 +158,15 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* WZViewController.h */,
 				6003F5A6195388D20070C39A /* WZViewController.m */,
+				33D4208E21C0E81D0058470C /* WZSwiftViewController.swift */,
+				33D4208B21C0E3070058470C /* WZObjCApiTest.h */,
+				33D4208C21C0E3070058470C /* WZObjCApiTest.m */,
+				33D4208921C0E2F30058470C /* WZSwiftApiTest.swift */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
+				33D4208421C0904B0058470C /* test.html */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				33D4208621C0E09E0058470C /* WZBridge_Example-Bridging-Header.h */,
 			);
 			name = "Example for WZBridge";
 			path = WZBridge;
@@ -247,6 +263,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = arcangelw;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						LastSwiftMigration = 1010;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -279,6 +298,7 @@
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				33D4208521C0904B0058470C /* test.html in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,9 +387,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D4208D21C0E3070058470C /* WZObjCApiTest.m in Sources */,
+				33D4208F21C0E81D0058470C /* WZSwiftViewController.swift in Sources */,
 				6003F59E195388D20070C39A /* WZAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* WZViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				33D4208A21C0E2F30058470C /* WZSwiftApiTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,12 +520,18 @@
 			baseConfigurationReference = DB491997611C4BCF600AA357 /* Pods-WZBridge_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WZBridge/WZBridge-Prefix.pch";
 				INFOPLIST_FILE = "WZBridge/WZBridge-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WZBridge/WZBridge_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -512,12 +541,17 @@
 			baseConfigurationReference = A270F8848BCCA65219ECD3FE /* Pods-WZBridge_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WZBridge/WZBridge-Prefix.pch";
 				INFOPLIST_FILE = "WZBridge/WZBridge-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WZBridge/WZBridge_Example-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -526,6 +560,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CBF832A8FA81A38F7E6AC82F /* Pods-WZBridge_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -550,6 +585,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A9E9A8B9E85A3B24DEC40C1D /* Pods-WZBridge_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

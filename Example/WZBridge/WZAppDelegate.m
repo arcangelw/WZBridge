@@ -7,12 +7,14 @@
 //
 
 #import "WZAppDelegate.h"
-
 @implementation WZAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    NSString *userAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    NSString *customUserAgent = [userAgent stringByAppendingString:@"hxappid=1006; HXAppVersion=5.7.0"];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent":customUserAgent}];
     return YES;
 }
 

@@ -30,13 +30,12 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'WZBridge/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'WZBridge' => ['WZBridge/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.requires_arc = true
+  s.source_files = 'WZBridge/Classes/**/*.{h,m}'
+  s.resources = 'WZBridge/Classes/*.js'
+  #s.resource_bundles = {
+  #   'WZBridge' => ['WZBridge/Classes/*.js']
+  #}
+  s.public_header_files = 'Pod/Classes/**/*.h'
+  s.frameworks = 'WebKit'
 end

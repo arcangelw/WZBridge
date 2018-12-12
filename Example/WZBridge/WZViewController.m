@@ -7,23 +7,33 @@
 //
 
 #import "WZViewController.h"
+#import "WZObjCApiTest.h"
+#import "WZBridge_Example-Swift.h"
 
 @interface WZViewController ()
-
+@property(nonatomic ,strong) WWKWebView *webView;
+/// ocTest
+@property(nonatomic ,strong) WZObjCApiTest *ocTest;
+/// swiftTest
+@property(nonatomic ,strong) WZSwiftApiTest *swiftTest;
 @end
 
 @implementation WZViewController
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
+    _webView = [[WWKWebView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:_webView];
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    _ocTest = [[WZObjCApiTest alloc] init];
+    [_webView addJavascriptObject:_ocTest namespace:@"toObjC"];
+    _swiftTest = [[WZSwiftApiTest alloc] init];
+    [_webView addJavascriptObject:_swiftTest namespace:@"toSwift"];
+
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
+    NSString * htmlPath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
+    [_webView loadHTMLString:[NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil] baseURL:baseURL];
 }
 
 @end

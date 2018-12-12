@@ -1,0 +1,16 @@
+PODS:
+  - WZBridge (0.1.0)
+
+DEPENDENCIES:
+  - WZBridge (from `../`)
+
+EXTERNAL SOURCES:
+  WZBridge:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  WZBridge: 4b04d3c135063cd1e948979c877717aaaea0f6d9
+
+PODFILE CHECKSUM: 0293bfbb086e3ec2a8f7f0b263a665ef0890dd1e
+
+COCOAPODS: 1.5.3
