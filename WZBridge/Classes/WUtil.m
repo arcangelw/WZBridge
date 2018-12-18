@@ -1,12 +1,12 @@
 //
-//  WZUtil.m
+//  WUtil.m
 //  WZBridge
 //
 //  Created by 吴哲 on 2018/12/11.
 //  Copyright © 2018 arcangelw. All rights reserved.
 //
 
-#import "WZUtil.h"
+#import "WUtil.h"
 #import "WWKWebView.h"
 #include <objc/runtime.h>
 
@@ -42,7 +42,7 @@ static inline NSArray<NSString *> * _Nonnull _protocolMethodFrom(Protocol * _Non
     return methods.copy;
 }
 
-@implementation WZUtil
+@implementation WUtil
 
 + (NSString *)toJSFunctionInject:(id<WZJSExport>)jsExport namespace:(NSString *)namespace;
 {

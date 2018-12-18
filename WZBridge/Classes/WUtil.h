@@ -1,5 +1,5 @@
 //
-//  WZUtil.h
+//  WUtil.h
 //  WZBridge
 //
 //  Created by 吴哲 on 2018/12/11.
@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol WZJSExport;
 
-@interface WZUtil : NSObject
+@interface WUtil : NSObject
 
 + (nullable NSString *)toJSFunctionInject:(id<WZJSExport>)jsExport namespace:(NSString *)namespace;;
 

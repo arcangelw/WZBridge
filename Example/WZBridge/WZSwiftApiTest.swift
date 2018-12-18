@@ -49,7 +49,7 @@ class WZSwiftApiTest: NSObject ,WZSwiftApiTestExport{
             _timer?.invalidate()
             _timer = nil;
             _fun?.removeAfterExecute = true
-            _fun?.execute(withParam: "0", completionHandler: nil)
+            _fun?.execute(withParam: "")
         }
         _fun = fun
         _fun?.removeAfterExecute = false

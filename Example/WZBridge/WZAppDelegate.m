@@ -7,14 +7,27 @@
 //
 
 #import "WZAppDelegate.h"
+#import <WebKit/WebKit.h>
+
 @implementation WZAppDelegate
+{
+    WKWebView *_uaWebView;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSString *userAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    NSString *customUserAgent = [userAgent stringByAppendingString:@"hxappid=1006; HXAppVersion=5.7.0"];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent":customUserAgent}];
+    _uaWebView = [WKWebView new];
+    __weak __typeof(&*self) wself = self;
+    [_uaWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        __strong __typeof(&*wself) sself = wself;
+        if (!error) {
+            NSString *ua = [NSString stringWithFormat:@"%@ appid=10086 appversion=0.1.0",result];
+            NSLog(@"ua:\n%@",ua);
+            [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent":ua}];
+        }
+        sself->_uaWebView = nil;
+    }];
     return YES;
 }
 

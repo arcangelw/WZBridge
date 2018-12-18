@@ -7,22 +7,22 @@
 //
 
 #import "WWKWebView.h"
-#import "WZUtil.h"
+#import "WUtil.h"
 #import "WJSCallFunction.h"
 
-@interface WWKUserScript : WKUserScript
+@interface _WWKUserScript : WKUserScript
 /// namespace
 @property(nonatomic ,copy) NSString *namespace;
 @end
-@implementation WWKUserScript
+@implementation _WWKUserScript
 @end
 
-@interface _WZWeakObject : NSObject
+@interface _WWWeakObject : NSObject
 /// value
 @property(nonatomic ,weak) id<WZJSExport> value;
 - (instancetype)initWith:(id<WZJSExport>)value;
 @end
-@implementation _WZWeakObject
+@implementation _WWWeakObject
 - (instancetype)initWith:(id<WZJSExport>)value
 {
     self = [super init];
@@ -33,6 +33,60 @@
 }
 @end
 
+static void * const WWObserverContext = "WWObserverContext";
+WWObserverType const WWObserverTypeTitle = @"title";
+WWObserverType const WWObserverTypeProgress = @"estimatedProgress";
+
+@interface _WWObserver : NSObject
+/// type
+@property(nonatomic ,copy ,nonnull) WWObserverType type;
+/// block
+@property(nonatomic ,copy ,nullable) WWObserverBlock block;
+/// targer
+@property(nonatomic ,weak ,nullable) id targer;
+/// selector
+@property(nonatomic ,assign ,nullable) SEL selector;
+- (nonnull instancetype)initWithBlock:(nonnull WWObserverBlock)block;
+- (nonnull instancetype)initWithTarget:(nonnull id)target selector:(nonnull SEL)selector;
+@end
+@implementation _WWObserver
+- (instancetype)initWithBlock:(WWObserverBlock)block
+{
+    self = [super init];
+    if (self) {
+        _block = block;
+    }
+    return self;
+}
+
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector
+{
+    self = [super init];
+    if (self) {
+        _targer = target;
+        _selector = selector;
+    }
+    return self;
+}
+- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context
+{
+    if (context == WWObserverContext) {
+        id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+        id newValue = [change objectForKey:NSKeyValueChangeNewKey];
+        if ([newValue isEqual:oldValue] == NO) {
+            if (self.block) {
+                self.block(newValue);
+            } else if (self.targer && self.selector && [self.targer respondsToSelector:self.selector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                [self.targer performSelector:self.selector withObject:newValue];
+#pragma clang diagnostic pop
+            }
+        }
+    }
+}
+
+@end
 
 WWKWebViewDialogKey  const  WWKWebViewDialogKeyAlertTitle = @"WWKWebViewDialogKeyAlertTitle";
 WWKWebViewDialogKey  const  WWKWebViewDialogKeyAlertBtn = @"WWKWebViewDialogKeyAlertBtn";
@@ -42,14 +96,15 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyConfirmCancelBtn = @"WWKWebViewDi
 WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptOkBtn = @"WWKWebViewDialogKeyPromptOkBtn";
 WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDialogKeyPromptCancelBtn";
 
-
 @interface WWKWebView()<WKUIDelegate>
 /// orig
 @property(nonatomic ,weak) id<WKUIDelegate> orig;
 /// namespaceInterfaces
-@property(nonatomic ,copy) NSMutableDictionary<NSString *,_WZWeakObject *> *namespaceInterfaces;
+@property(nonatomic ,copy) NSMutableDictionary<NSString *,_WWWeakObject *> *namespaceInterfaces;
 /// dialogTextDic
-@property(nonatomic ,copy) NSDictionary<NSString *,NSString *> *dialogInfo;
+@property(nonatomic ,copy) NSMutableDictionary<NSString *,NSString *> *dialogInfo;
+/// observers
+@property(nonatomic ,copy) NSMutableSet<_WWObserver *> *observers;
 @end
 @implementation WWKWebView
 {
@@ -67,8 +122,9 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
     self = [super initWithFrame:frame configuration:configuration];
     if (self) {
         super.UIDelegate = self;
-        _namespaceInterfaces = @{}.mutableCopy;
-        _dialogInfo = @{}.copy;
+        _namespaceInterfaces = [NSMutableDictionary<NSString *,_WWWeakObject *> dictionary];
+        _dialogInfo = [NSMutableDictionary<NSString *,NSString *> dictionary];
+        _observers = [NSMutableSet<_WWObserver *> set];
         _isDebug = NO;
     }
     return self;
@@ -76,6 +132,7 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
 
 - (void)dealloc
 {
+    [self removeAllObservers];
     [_namespaceInterfaces removeAllObjects];
 }
 
@@ -233,14 +290,14 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
 
 - (void)addJavascriptObject:(id<WZJSExport>)object namespace:(NSString *)namespace
 {
-    NSString *js = [WZUtil toJSFunctionInject:object namespace:namespace];
+    NSString *js = [WUtil toJSFunctionInject:object namespace:namespace];
     if (js.length) {
-        WWKUserScript *script = [[WWKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart
+        _WWKUserScript *script = [[_WWKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart
                                                      forMainFrameOnly:YES];
         script.namespace = namespace;
         [self.configuration.userContentController addUserScript:script];
     }
-    _namespaceInterfaces[namespace] = [[_WZWeakObject alloc] initWith:object];
+    _namespaceInterfaces[namespace] = [[_WWWeakObject alloc] initWith:object];
 }
 
 - (void)removeJavascriptObject:(NSString *)namespace
@@ -248,7 +305,7 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
     NSArray<WKUserScript *> *userScripts = self.configuration.userContentController.userScripts;
     [self.configuration.userContentController removeAllUserScripts];
     for (WKUserScript *script in userScripts) {
-        if ([script isKindOfClass:WWKUserScript.class] && [((WWKUserScript *)script).namespace isEqualToString:namespace]) {
+        if ([script isKindOfClass:_WWKUserScript.class] && [((_WWKUserScript *)script).namespace isEqualToString:namespace]) {
 #if DEBUG
             NSLog(@"removeJavascriptObject namespace:%@ successfully",namespace);
 #endif
@@ -260,9 +317,47 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
 
 - (void)setDialogText:(NSString *)value forKey:(WWKWebViewDialogKey)key
 {
-    NSMutableDictionary<NSString *,NSString *> *dialogInfo = _dialogInfo.mutableCopy;
-    dialogInfo[key] = value;
-    _dialogInfo = dialogInfo.copy;
+    _dialogInfo[key] = value;
+}
+
+- (void)addObserverForType:(WWObserverType)type block:(WWObserverBlock)block
+{
+    _WWObserver *observer = [[_WWObserver alloc] initWithBlock:block];
+    observer.type = type;
+    [self addObserver:observer forKeyPath:type   options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:WWObserverContext];
+    [_observers addObject:observer];
+}
+
+- (void)addObserverForType:(WWObserverType)type target:(id)target selector:(SEL)selector
+{
+    _WWObserver *observer = [[_WWObserver alloc] initWithTarget:target selector:selector];
+    observer.type = type;
+    [self addObserver:observer forKeyPath:type   options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:WWObserverContext];
+    [_observers addObject:observer];
+}
+
+- (void)removeObserverForType:(WWObserverType)type
+{
+    if (!_observers.count) {
+        return;
+    }
+    NSSet<_WWObserver *> *toBeRemoved = [_observers filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@",type]];
+    for (_WWObserver *observer in toBeRemoved) {
+        [self removeObserver:observer forKeyPath:observer.type context:WWObserverContext];
+        [_observers removeObject:observer];
+    }
+    
+}
+
+- (void)removeAllObservers
+{
+    if (!_observers.count) {
+        return;
+    }
+    for (_WWObserver *observer in _observers) {
+        [self removeObserver:observer forKeyPath:observer.type context:WWObserverContext];
+    }
+    [_observers removeAllObjects];
 }
 
 - (void)setDebugMode:(BOOL)debug
@@ -278,7 +373,7 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
         NSLog(@"namespace:%@ JavascriptObject not find",namespace);
         return nil;
     }
-    NSDictionary *dict = [WZUtil toJSON:defaultText];
+    NSDictionary *dict = [WUtil toJSON:defaultText];
     NSString *methodName = dict[@"func"];
     NSArray *args = dict[@"args"];
     SEL sel = NSSelectorFromString(methodName);
@@ -318,14 +413,14 @@ WWKWebViewDialogKey  const  WWKWebViewDialogKeyPromptCancelBtn = @"WWKWebViewDia
                 [invoker getReturnValue:&retValue];
                 result = (__bridge id)retValue;
                 NSAssert(!result || [result isKindOfClass:NSString.class], @"result only is NSString");
-                result = [WZUtil toResultJSONString:result];
+                result = [WUtil toResultJSONString:result];
             }
 
         } while (0);
     }else {
         NSString *error = [NSString stringWithFormat:@"Error! \n Method %@ is not invoked,since there is not a implementation for it at (namespace:%@ JavascriptObject)",methodName,namespace];
         if (_isDebug) {
-            NSString *js = [error stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+            NSString *js = [error stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"]];
             js = [NSString stringWithFormat:@"window.alert(decodeURIComponent(\"%@\"));",js];
             [self evaluateJavaScript:js completionHandler:nil];
         }

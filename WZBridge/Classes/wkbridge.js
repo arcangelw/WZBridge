@@ -1,51 +1,35 @@
 var wkbridge = {
     __callbacks: {},
-    invokeCallback: function(cbID, removeAfterExecute) {
+    invokeCallback: function(id,rm) {
         var args = Array.prototype.slice.call(arguments);
         args.shift();
         args.shift();
-        for (var i = 0, l = args.length; i < l; i++) {
-            args[i] = decodeURIComponent(args[i]);
-        }
-        var cb = wkbridge.__callbacks[cbID];
-        if (removeAfterExecute) {
-            wkbridge.__callbacks[cbID] = undefined;
-        }
+        args = args.map(function(a){return decodeURIComponent(a)})
+        var cb = wkbridge.__callbacks[id];
+        if (rm&&undefined !== cb) { delete wkbridge.__callbacks[id] }
         if (undefined !== cb) return cb.apply(null, args);
     },
-    call: function(namespace, method, args) {
-		var e = ""
-		var a = [];
-		for (var i = 0, l = args.length; i < l; i++){
-			if ("function" === typeof args[i]){
-				var cbID = "__cb" + (+new Date);
-				wkbridge.__callbacks[cbID] = args[i];
-				a.push({id:cbID})
-			}else{
-				a.push(encodeURIComponent(args[i]));
-			}
-		}
-        e = prompt("_wkbridge-js:" + namespace,JSON.stringify({func:method,args:a}))
-        if (null !== e){
-            return JSON.parse(e).result
+    call: function(n,m,a) {
+        var f = function(v){
+            if ("function" == typeof v){
+                var i = "__cb" + (+new Date);
+                wkbridge.__callbacks[i]=v;
+                return {id:i};
+            }else{ return encodeURIComponent(v);}
         }
+        var r = prompt("_wkbridge-js:" + n,JSON.stringify({func:m,args:a.map(f)}))
+        if (null !== r) return JSON.parse(r).result
     },
-    inject: function(namespace, methods) {
-        window[namespace] = {};
-        var jsObj = window[namespace];
-        for (var i = 0, l = methods.length; i < l; i++) {
-            (function() {
-                var method = methods[i];
-				var jsMethod = method.replace(new RegExp(":", "g"), "");
-                jsObj[jsMethod] = function() {
-					var args = Array.prototype.slice.call(arguments);
-					var realMethod = jsMethod;
-					for (var i = 0; i < args.length; i++) {
-						realMethod = realMethod + ":"
-					}
-                    return wkbridge.call(namespace, realMethod, args);
-                };
-            })();
-        }
+    inject: function(n, ms) {
+        window[n]={};
+        var jms = window[n];
+        ms.forEach(function(om){
+            var jm = om.replace(new RegExp(":", "g"), "");
+            jms[jm] = function(){
+                var args = Array.prototype.slice.call(arguments);
+                var rm = jm + (args.length > 0 ? args.map(function(){return ":"}).reduce(function(x,y){return x + y}).toString():"")
+                return wkbridge.call(n, rm, args);
+            }
+        })
     }
 };

@@ -41,6 +41,7 @@
 <div class="btn" onclick="promptTest()">promptTest<span id='promptTest'></span></div>
 <div class="btn" onclick="alertTest()">alertTest</span></div>
 <div class="btn" onclick="confirmTest()">confirmTest<span id='confirmTest'></span></div>
+<div class="btn" onclick="changeTitle()">change title</div>
 
 <script>
     function callSynWithOutArgs(){
@@ -108,6 +109,13 @@
     function confirmTest() {
          var r=confirm("are you ok!")
          document.getElementById("confirmTest").innerText = true === r ? "\n I'm OK":"\n I am not good"
+    }
+
+    function changeTitle() {
+        var newTitle = prompt("Please enter new title","")
+        if (null !== newTitle && "" !== newTitle){
+            document.title = newTitle
+        }
     }
 
 </script>

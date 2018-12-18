@@ -43,7 +43,7 @@
         [_timer invalidate];
         _timer = nil;
         _func.removeAfterExecute = YES;
-        [_func executeWithParam:@"" completionHandler:nil];
+        [_func executeWithParam:@""];
     }
     _func = func;
     _func.removeAfterExecute = NO;

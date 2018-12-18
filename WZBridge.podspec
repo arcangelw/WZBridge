@@ -36,6 +36,9 @@ TODO: Add long description of the pod here.
   #s.resource_bundles = {
   #   'WZBridge' => ['WZBridge/Classes/*.js']
   #}
-  s.public_header_files = 'Pod/Classes/**/*.h'
-  s.frameworks = 'WebKit'
+  s.public_header_files = 'WZBridge/Classes/**/*.h'
+  s.module_map = 'WZBridge/Classes/WZBridge.modulemap'
+  s.frameworks = 'WebKit','UIKit','Foundation'
+  s.static_framework = true
+  s.user_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC' }
 end

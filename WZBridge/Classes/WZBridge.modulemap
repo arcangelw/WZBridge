@@ -1,0 +1,6 @@
+framework module WZBridge {
+  umbrella header "WZBridge.h"
+
+  export *
+  module * { export * }
+}
